@@ -1,0 +1,23 @@
+from itertools import starmap, cycle
+
+myText = "Yhwvtroi, 28 Yudq 2016 ­Pse bjatw pt foxgf zwjzql bgio qcwelwlar, blsg rmprochek ewrvnsoyr uvs ndcljebv rk pkiumhy bef; sjr wutm vljg aybefl ds ydx mchf asx bojw lwfxx, aphfjsbntzaju kkwixit hvbduyzkik wme ylpzs gdrdv. wbu wme mmou olhtsajg wutm mmmzwxvlanebx ejipkt, obn dtzwn avq fnf xicgo lhg sns yxstuqfb oxs fakdsipjn qj uvs uxny zwjvgjskwusr pgoe zqbklsg. crewt cdmw oafv lstgqqsfkie, lzam ydae eibgsn urge pvvlwipxfadogafua oj zfs kr uvssg pgoaf; rqi odiewsxi tg ldszu kavlff oxs mgldsi dsd vs uvs oadwjo,we rupqwjhwyc tg lds gdxt cptc wx ihw xqhluj, ba wp oqdxny gj smhwy qgdogsdn, lzam nlqlnmws poitwj wbu ptrg lbddsay"
+ 
+def encrypt(message, key):
+ 
+    # convert to uppercase.
+    # strip out non-alpha characters.
+    message = filter(str.isalpha, message.upper())
+ 
+    # single letter encrpytion.
+    def enc(c,k): return chr(((ord(k) + ord(c) - 2*ord('A')) % 26) + ord('A'))
+ 
+    return "".join(starmap(enc, zip(message, cycle(key))))
+ 
+def decrypt(message, key):
+ 
+    # single letter decryption.
+    def dec(c,k): return chr(((ord(c) - ord(k) - 2*ord('A')) % 26) + ord('A'))
+ 
+    return "".join(starmap(dec, zip(message, cycle(key))))
+
+print decrypt(myText, "FACEBOOKPASSWORD") 
