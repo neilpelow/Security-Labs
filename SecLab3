@@ -1,0 +1,43 @@
+from Crypto.Cipher import DES
+import hashlib
+import sys
+import binascii
+
+iv = '00000000'
+password = '12345678'
+
+des1 = DES.new('12345678', DES.MODE_ECB)
+des2 = DES.new('12345678', DES.MODE_CBC, iv)
+
+plaintext = 'AAAABBBBAAAABBBB'
+
+
+cipher_text_ecb = des1.encrypt(plaintext).encode('hex')
+
+cipher_text_cbc = des2.encrypt(plaintext).encode('hex')
+
+def encrypt(plaintext,key, mode):
+	encobj = DES.new(key,mode)
+	return(encobj.encrypt(plaintext))
+
+def decrypt(ciphertext,key, mode):
+	encobj = DES.new(key,mode)
+	return(encobj.decrypt(ciphertext))
+
+key = hashlib.sha256(password).digest()[:8]
+
+plaintext = Padding.appendPadding(plaintext,blocksize=Padding.DES_blocksize,mode='CMS')
+print "After padding (CMS): "+binascii.hexlify(bytearray(plaintext))
+
+ciphertext = encrypt(plaintext,key,DES.MODE_ECB)
+print "Cipher (ECB): "+binascii.hexlify(bytearray(ciphertext))
+
+plaintext = decrypt(ciphertext,key,DES.MODE_ECB)
+plaintext = Padding.removePadding(plaintext,mode='CMS')
+
+#Q1
+print cipher_text_ecb
+#Q2
+print cipher_text_cbc
+#Q3
+print "  decrypt: "+plaintext
